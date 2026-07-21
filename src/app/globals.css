@@ -1,24 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FDFCF7; /* Warm off-white background */
-  --foreground: #101010; /* Soft solid near-black for high readability */
-  --muted: #605F5A; /* Warm grey/neutral for secondary typography */
+  /* Core Color System - Warm Editorial Palette */
+  --background: #FDFCF7; /* Warm off-white canvas */
+  --foreground: #101010; /* Soft solid near-black for high contrast */
+  --muted: #605F5A; /* Warm neutral grey for secondary typography */
   --muted-light: #A09F9A;
-  --border: rgba(16, 16, 16, 0.08); /* Sophisticated subtle border */
-  --primary: #FF5A00; /* High-vibrancy strategic orange accent */
+  --border: rgba(16, 16, 16, 0.08); /* Crisp subtle border */
+  --primary: #FF5A00; /* Strategic vibrancy orange accent */
   --primary-hover: #E04E00;
   --glow: rgba(255, 90, 0, 0.04);
   --card-bg: #FFFFFF;
   --card-border: rgba(16, 16, 16, 0.06);
+
+  /* Spacing Tokens */
+  --space-xs: 0.5rem;    /* 8px */
+  --space-sm: 1rem;      /* 16px */
+  --space-md: 1.5rem;    /* 24px */
+  --space-lg: 2.5rem;    /* 40px */
+  --space-xl: 4rem;      /* 64px */
+  --space-2xl: 6rem;     /* 96px */
+  --space-3xl: 9rem;     /* 144px */
 }
 
 .dark {
-  --background: #0B0A08; /* Rich obsidian-charcoal background */
-  --foreground: #F5F4EE; /* Soft off-white text for dark mode */
-  --muted: #A09F9A; /* Light warm grey */
+  --background: #0B0A08; /* Obsidian-charcoal background */
+  --foreground: #F5F4EE; /* Off-white text */
+  --muted: #A09F9A;
   --muted-light: #605F5A;
-  --border: rgba(245, 244, 238, 0.1);
+  --border: rgba(245, 244, 238, 0.08);
   --primary: #FF7020;
   --primary-hover: #FF8540;
   --glow: rgba(255, 112, 32, 0.08);
@@ -28,8 +38,8 @@
 
 @theme {
   --font-sans: var(--font-geist), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-instrument-serif), Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: var(--font-ibm-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-serif: var(--font-instrument-serif), Georgia, Cambria, serif;
+  --font-mono: var(--font-ibm-mono), ui-monospace, SFMono-Regular, monospace;
 
   --color-bg-base: var(--background);
   --color-text-base: var(--foreground);
@@ -41,20 +51,18 @@
   --color-card-bg: var(--card-bg);
   --color-card-border: var(--card-border);
 
-  /* Typographic Scale (The "Golden Ratio" Approach) */
-  --text-h1-mobile: clamp(32px, 5vw, 36px);
-  --text-h1-desktop: clamp(48px, 4vw, 64px);
-  --text-h2-mobile: 28px;
-  --text-h2-desktop: clamp(36px, 3.5vw, 44px);
-  --text-h3-mobile: 20px;
-  --text-h3-desktop: 24px;
-  --text-body-mobile: 16px;
-  --text-body-desktop: clamp(16px, 1.2vw, 18px);
-  --text-caption-mobile: 13px;
-  --text-caption-desktop: 14px;
+  /* Typographic Clamp Scale */
+  --text-display-xxl: clamp(44px, 8vw, 110px);
+  --text-display-xl: clamp(36px, 6vw, 80px);
+  --text-h1: clamp(32px, 4vw, 56px);
+  --text-h2: clamp(24px, 3vw, 40px);
+  --text-h3: clamp(20px, 2vw, 28px);
+  --text-body-lg: clamp(16px, 1.4vw, 20px);
+  --text-body: clamp(14px, 1.1vw, 16px);
+  --text-caption: clamp(12px, 0.9vw, 14px);
 }
 
-/* Clay.global Smooth Scroll integrations and defaults */
+/* Clay.global Smooth Scroll Integrations */
 html {
   scroll-behavior: initial;
 }
@@ -66,14 +74,14 @@ html, body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom selection */
+/* Custom Selection */
 ::selection {
   background-color: var(--primary);
   color: #FFFFFF;
@@ -81,128 +89,114 @@ html, body {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(16, 16, 16, 0.15);
-  border-radius: 4px;
+  background: rgba(16, 16, 16, 0.18);
+  border-radius: 3px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(245, 244, 238, 0.15);
+  background: rgba(245, 244, 238, 0.18);
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
 }
 
-/* Lenis styles */
+/* Lenis Smooth Scroll Utilities */
 html.lenis, html.lenis body {
   height: auto;
 }
-
 .lenis-smooth {
   scroll-behavior: auto !important;
 }
-
 .lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
-
 .lenis-stopped {
   overflow: hidden;
 }
-
 .lenis-scrolling iframe {
   pointer-events: none;
 }
 
-/* Custom Cursor (Desktop Only) */
-.custom-cursor {
-  width: 12px;
-  height: 12px;
-  background: var(--primary);
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s;
+/* Custom Cursor (Desktop Pointer Only) */
+@media (pointer: fine) {
+  .custom-cursor {
+    width: 12px;
+    height: 12px;
+    background: var(--primary);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease;
+  }
+
+  .custom-cursor.hovering {
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border: 1px solid var(--primary);
+  }
+
+  .custom-cursor.view-project {
+    width: 84px;
+    height: 84px;
+    background: var(--primary);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
 }
 
-.custom-cursor.hovering {
-  width: 48px;
-  height: 48px;
-  background: transparent;
-  border: 1px solid var(--primary);
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none !important;
+  }
 }
 
-.custom-cursor.view-project {
-  width: 80px;
-  height: 80px;
-  background: var(--primary);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* Base Headings styling */
+/* Base Headings Styling */
 h1, .h1 {
   font-family: var(--font-serif);
   font-weight: 700;
   letter-spacing: -0.03em;
-  font-size: clamp(32px, 5vw, 36px);
-  line-height: 1.1;
-}
-
-@media (min-width: 768px) {
-  h1, .h1 {
-    font-size: clamp(48px, 4vw, 64px);
-  }
+  font-size: clamp(32px, 5vw, 64px);
+  line-height: 1.06;
 }
 
 h2, .h2 {
   font-family: var(--font-serif);
   font-weight: 600;
-  letter-spacing: -0.02em;
-  font-size: 28px;
-  line-height: 1.2;
-}
-
-@media (min-width: 768px) {
-  h2, .h2 {
-    font-size: clamp(36px, 3.5vw, 44px);
-  }
+  letter-spacing: -0.025em;
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.15;
 }
 
 h3, .h3 {
   font-family: var(--font-serif);
   font-weight: 600;
-  letter-spacing: -0.01em;
-  font-size: 20px;
-  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.25;
 }
 
-@media (min-width: 768px) {
-  h3, .h3 {
-    font-size: 24px;
-  }
-}
-
-/* Premium Card Layout classes */
+/* Premium Card Layout Utilities */
 .clay-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 28px;
+  border-radius: 24px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.015);
   transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -212,15 +206,7 @@ h3, .h3 {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.03);
 }
 
-.dark .clay-card {
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-}
-
-.dark .clay-card:hover {
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-}
-
-/* Text Mask Revealing Animation utility classes */
+/* Text Mask Revealing Utilities */
 .mask-text {
   overflow: hidden;
   display: inline-block;
@@ -232,12 +218,22 @@ h3, .h3 {
   transform: translateY(105%);
 }
 
-/* Magnetic proximity clickables transition */
+/* Magnetic Target Proximity Physics */
 .magnetic-target {
   transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Focus styles */
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus Accessibility */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -247,7 +243,7 @@ textarea:focus-visible {
   outline-offset: 4px;
 }
 
-/* Skip link styling */
+/* Skip Link */
 .skip-link {
   position: absolute;
   top: -100%;
@@ -255,7 +251,7 @@ textarea:focus-visible {
   padding: 0.75rem 1.5rem;
   background: var(--primary);
   color: #FFFFFF;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 0 0 12px 12px;
   z-index: 99999;
   transition: top 0.2s ease;
