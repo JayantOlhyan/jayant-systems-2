@@ -1,0 +1,265 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FDFCF7; /* Warm off-white background */
+  --foreground: #101010; /* Soft solid near-black for high readability */
+  --muted: #605F5A; /* Warm grey/neutral for secondary typography */
+  --muted-light: #A09F9A;
+  --border: rgba(16, 16, 16, 0.08); /* Sophisticated subtle border */
+  --primary: #FF5A00; /* High-vibrancy strategic orange accent */
+  --primary-hover: #E04E00;
+  --glow: rgba(255, 90, 0, 0.04);
+  --card-bg: #FFFFFF;
+  --card-border: rgba(16, 16, 16, 0.06);
+}
+
+.dark {
+  --background: #0B0A08; /* Rich obsidian-charcoal background */
+  --foreground: #F5F4EE; /* Soft off-white text for dark mode */
+  --muted: #A09F9A; /* Light warm grey */
+  --muted-light: #605F5A;
+  --border: rgba(245, 244, 238, 0.1);
+  --primary: #FF7020;
+  --primary-hover: #FF8540;
+  --glow: rgba(255, 112, 32, 0.08);
+  --card-bg: #141311;
+  --card-border: rgba(245, 244, 238, 0.05);
+}
+
+@theme {
+  --font-sans: var(--font-geist), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: var(--font-ibm-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-bg-base: var(--background);
+  --color-text-base: var(--foreground);
+  --color-text-muted: var(--muted);
+  --color-border-custom: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-glow-accent: var(--glow);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+
+  /* Typographic Scale (The "Golden Ratio" Approach) */
+  --text-h1-mobile: clamp(32px, 5vw, 36px);
+  --text-h1-desktop: clamp(48px, 4vw, 64px);
+  --text-h2-mobile: 28px;
+  --text-h2-desktop: clamp(36px, 3.5vw, 44px);
+  --text-h3-mobile: 20px;
+  --text-h3-desktop: 24px;
+  --text-body-mobile: 16px;
+  --text-body-desktop: clamp(16px, 1.2vw, 18px);
+  --text-caption-mobile: 13px;
+  --text-caption-desktop: 14px;
+}
+
+/* Clay.global Smooth Scroll integrations and defaults */
+html {
+  scroll-behavior: initial;
+}
+
+html, body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  letter-spacing: -0.01em;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom selection */
+::selection {
+  background-color: var(--primary);
+  color: #FFFFFF;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 16, 16, 0.15);
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(245, 244, 238, 0.15);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Lenis styles */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Custom Cursor (Desktop Only) */
+.custom-cursor {
+  width: 12px;
+  height: 12px;
+  background: var(--primary);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s;
+}
+
+.custom-cursor.hovering {
+  width: 48px;
+  height: 48px;
+  background: transparent;
+  border: 1px solid var(--primary);
+}
+
+.custom-cursor.view-project {
+  width: 80px;
+  height: 80px;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Base Headings styling */
+h1, .h1 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-size: clamp(32px, 5vw, 36px);
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  h1, .h1 {
+    font-size: clamp(48px, 4vw, 64px);
+  }
+}
+
+h2, .h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  h2, .h2 {
+    font-size: clamp(36px, 3.5vw, 44px);
+  }
+}
+
+h3, .h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+  h3, .h3 {
+    font-size: 24px;
+  }
+}
+
+/* Premium Card Layout classes */
+.clay-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 28px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.015);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.clay-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.03);
+}
+
+.dark .clay-card {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.dark .clay-card:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Text Mask Revealing Animation utility classes */
+.mask-text {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.mask-text-inner {
+  display: inline-block;
+  transform: translateY(105%);
+}
+
+/* Magnetic proximity clickables transition */
+.magnetic-target {
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Focus styles */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+
+/* Skip link styling */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary);
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 0 0 12px 12px;
+  z-index: 99999;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+}
