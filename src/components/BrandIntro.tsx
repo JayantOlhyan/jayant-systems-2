@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface BrandIntroProps {
   onComplete?: () => void;
@@ -11,34 +11,58 @@ interface BrandIntroProps {
 export default function BrandIntro({ onComplete }: BrandIntroProps) {
   const [shouldRender, setShouldRender] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  const [isSkipped, setIsSkipped] = useState(false);
+  const [showSkip, setShowSkip] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
+  const skipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // Check if intro has already played in current browser session
     const hasSeenIntro = sessionStorage.getItem("jayant_intro_seen");
 
     if (hasSeenIntro) {
-      // Already seen in this session: skip reveal completely
       setShouldRender(false);
       if (onComplete) onComplete();
       return;
     }
 
-    // First time in session: enable intro sequence
     setShouldRender(true);
-    // Lock scroll during intro
     document.body.style.overflow = "hidden";
+
+    // Initial fade in for the container
+    if (containerRef.current) {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 1.5, ease: "power2.out" }
+      );
+    }
 
     // Safety fallback timer: auto-complete if video stalls or fails after 8 seconds
     const fallbackTimer = setTimeout(() => {
       handleComplete();
     }, 8500);
 
-    return () => clearTimeout(fallbackTimer);
+    // Mouse movement to reveal skip button
+    const handleMouseMove = () => {
+      setShowSkip(true);
+      if (skipTimeoutRef.current) clearTimeout(skipTimeoutRef.current);
+      skipTimeoutRef.current = setTimeout(() => {
+        setShowSkip(false);
+      }, 2000);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchstart", handleMouseMove);
+
+    return () => {
+      clearTimeout(fallbackTimer);
+      if (skipTimeoutRef.current) clearTimeout(skipTimeoutRef.current);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchstart", handleMouseMove);
+    };
   }, []);
 
   const handleComplete = () => {
@@ -50,11 +74,8 @@ export default function BrandIntro({ onComplete }: BrandIntroProps) {
       return;
     }
 
-    // Choreographed upward mask unveil transition into Hero
-    gsap.to(containerRef.current, {
-      clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-      duration: 1.1,
-      ease: "power4.inOut",
+    // Cinematic transition: Scale up video slightly while fading to pure black, then fade out the whole container
+    const tl = gsap.timeline({
       onComplete: () => {
         document.body.style.overflow = "";
         sessionStorage.setItem("jayant_intro_seen", "true");
@@ -62,6 +83,21 @@ export default function BrandIntro({ onComplete }: BrandIntroProps) {
         if (onComplete) onComplete();
       },
     });
+
+    if (videoContainerRef.current) {
+      tl.to(videoContainerRef.current, {
+        scale: 1.05,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.inOut",
+      }, 0);
+    }
+
+    tl.to(containerRef.current, {
+      opacity: 0,
+      duration: 1.2,
+      ease: "power2.inOut",
+    }, 0.2);
   };
 
   const handleVideoEnded = () => {
@@ -69,7 +105,6 @@ export default function BrandIntro({ onComplete }: BrandIntroProps) {
   };
 
   const handleSkip = () => {
-    setIsSkipped(true);
     handleComplete();
   };
 
@@ -78,32 +113,13 @@ export default function BrandIntro({ onComplete }: BrandIntroProps) {
   return (
     <div
       ref={containerRef}
-      style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
-      className="fixed inset-0 z-[999999] bg-[#060504] text-white flex flex-col justify-between p-6 md:p-12 overflow-hidden select-none"
+      className="fixed inset-0 z-[999999] bg-black text-white flex items-center justify-center overflow-hidden select-none"
     >
-      {/* Top Bar: Brand Identifier & Skip Button */}
-      <div className="flex items-center justify-between w-full z-20">
-        <div className="flex items-center gap-2.5">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
-          </span>
-          <span className="font-mono text-xs font-bold tracking-widest uppercase text-white/80">
-            JAYANT WEB & AI SYSTEMS
-          </span>
-        </div>
-
-        <button
-          onClick={handleSkip}
-          className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/10 hover:bg-primary hover:border-primary text-white text-xs font-mono font-bold transition-all duration-300 backdrop-blur-md cursor-pointer"
-        >
-          <span>Skip Reveal</span>
-          <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
-        </button>
-      </div>
-
-      {/* Center: Video Reveal / Fallback Container */}
-      <div className="relative w-full max-w-4xl mx-auto aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl flex items-center justify-center bg-black/60 my-auto z-10">
+      {/* Centered Cinematic Video Container */}
+      <div 
+        ref={videoContainerRef}
+        className="relative w-full h-full flex items-center justify-center"
+      >
         {!videoError ? (
           <video
             ref={videoRef}
@@ -114,43 +130,31 @@ export default function BrandIntro({ onComplete }: BrandIntroProps) {
             playsInline
             onEnded={handleVideoEnded}
             onError={() => setVideoError(true)}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain md:object-cover max-w-[1920px] mx-auto"
           />
         ) : (
-          /* High-Craft SVG Animated Fallback */
-          <div className="flex flex-col items-center text-center p-8">
-            <Sparkles className="size-10 text-primary mb-4 animate-pulse" />
-            <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-white mb-2">
-              JAYANT WEB & AI SYSTEMS
+          /* Elegant Minimalist Fallback */
+          <div className="flex flex-col items-center justify-center text-center p-8 opacity-80">
+            <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-widest text-white mb-4">
+              JAYANT
             </h2>
-            <p className="font-mono text-sm tracking-widest text-primary uppercase font-bold">
-              INTELLIGENCE, ENGINEERED.
+            <p className="font-mono text-[10px] md:text-xs tracking-[0.3em] text-white/60 uppercase">
+              Intelligence, Engineered
             </p>
           </div>
         )}
-
-        {/* Subtle Video Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
       </div>
 
-      {/* Bottom Bar: Brand Tagline & Technical Indicators */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full z-20 border-t border-white/10 pt-6">
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] text-white/50 uppercase tracking-widest">[SYS_INIT // 2026]</span>
-          <span className="text-white/20">•</span>
-          <span className="font-serif text-sm md:text-base italic text-white/90 font-semibold">
-            INTELLIGENCE, ENGINEERED.
-          </span>
-        </div>
-
-        <div className="flex items-center gap-4 font-mono text-[11px] text-white/60">
-          <span>AI AGENTS</span>
-          <span>•</span>
-          <span>AUTOMATION</span>
-          <span>•</span>
-          <span>SYSTEMS</span>
-        </div>
-      </div>
+      {/* Subtle Skip Button */}
+      <button
+        onClick={handleSkip}
+        className={`absolute bottom-8 right-8 md:bottom-12 md:right-12 group inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-500 backdrop-blur-md cursor-pointer ${
+          showSkip ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+        }`}
+      >
+        <span>Skip</span>
+        <ArrowRight className="size-3 transition-transform group-hover:translate-x-1" />
+      </button>
     </div>
   );
 }
