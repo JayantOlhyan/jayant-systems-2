@@ -20,10 +20,11 @@ export default function Footer() {
     {
       title: "Work & Studio",
       links: [
-        { name: "Featured Work", href: "/portfolio" },
+        { name: "Work", href: "/portfolio" },
+        { name: "Capabilities", href: "/capabilities" },
+        { name: "About Studio", href: "/about" },
         { name: "Our Process", href: "/process" },
-        { name: "Pricing Plans", href: "/pricing" },
-        { name: "About Founder", href: "/about" },
+        { name: "Contact", href: "/contact" },
       ]
     },
     {

@@ -72,11 +72,11 @@ export default function Navbar() {
   }, [pathname]);
 
   const navItems = [
-    { name: "Services", href: "/services" },
     { name: "Work", href: "/portfolio" },
-    { name: "Process", href: "/process" },
-    { name: "Pricing", href: "/pricing" },
+    { name: "Capabilities", href: "/capabilities" },
     { name: "About", href: "/about" },
+    { name: "Process", href: "/process" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (

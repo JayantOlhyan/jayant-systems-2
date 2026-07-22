@@ -21,7 +21,8 @@ export default function Capabilities() {
         "Intelligent Internal Knowledge Base Bots",
         "AI-Powered Customer Service Co-Pilots"
       ],
-      tech: ["OpenAI GPT-4o", "Google Gemini 1.5", "Python FastAPI", "LangChain", "Vector DBs"]
+      tech: ["OpenAI GPT-4o", "Google Gemini 1.5", "Python FastAPI", "LangChain", "Vector DBs"],
+      image: "/assets/3d/ai_systems.png"
     },
     {
       id: "automation",
@@ -36,7 +37,8 @@ export default function Capabilities() {
         "Cross-System API Webhook Pipelines",
         "Customer Support Escalation Workflows"
       ],
-      tech: ["WhatsApp Cloud API", "FastAPI", "Webhooks", "PostgreSQL", "Supabase", "Redis"]
+      tech: ["WhatsApp Cloud API", "FastAPI", "Webhooks", "PostgreSQL", "Supabase", "Redis"],
+      image: "/assets/3d/automation.png"
     },
     {
       id: "digital-products",
@@ -51,7 +53,8 @@ export default function Capabilities() {
         "Cross-Platform Mobile Apps (iOS & Android)",
         "Stripe Billing & Subscription Engines"
       ],
-      tech: ["Next.js 16", "React 19", "Node.js", "Flutter", "Tailwind CSS", "Stripe API"]
+      tech: ["Next.js 16", "React 19", "Node.js", "Flutter", "Tailwind CSS", "Stripe API"],
+      image: "/assets/3d/digital_products.png"
     },
     {
       id: "digital-experiences",
@@ -66,7 +69,8 @@ export default function Capabilities() {
         "Creative WebGL & GSAP Micro-Interactions",
         "Headless CMS & Editorial Publishing"
       ],
-      tech: ["Next.js App Router", "GSAP 3.15", "Lenis", "Tailwind CSS v4", "TypeScript"]
+      tech: ["Next.js App Router", "GSAP 3.15", "Lenis", "Tailwind CSS v4", "TypeScript"],
+      image: "/assets/3d/digital_experiences.png"
     }
   ];
 
@@ -136,17 +140,22 @@ export default function Capabilities() {
             <div className="rounded-3xl border border-border-custom bg-card-bg p-8 md:p-12 shadow-xl relative overflow-hidden transition-all duration-500">
               
               {/* Pillar Header */}
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-6 relative z-10">
                 <span className="px-3.5 py-1 rounded-full font-mono text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
                   {capabilityPillars[activePane].subtitle}
                 </span>
               </div>
 
-              <h3 className="font-serif text-3xl md:text-4xl font-bold text-text-base mb-4">
+              {/* 3D Visual Asset */}
+              <div className="absolute top-0 right-0 w-64 h-64 -translate-y-12 translate-x-12 opacity-80 pointer-events-none mix-blend-multiply dark:mix-blend-lighten hidden md:block z-0">
+                <img src={capabilityPillars[activePane].image} alt="" className="w-full h-full object-contain" />
+              </div>
+
+              <h3 className="font-serif text-3xl md:text-4xl font-bold text-text-base mb-4 relative z-10">
                 {capabilityPillars[activePane].title}
               </h3>
 
-              <p className="text-sm md:text-base text-text-muted leading-relaxed mb-8">
+              <p className="text-sm md:text-base text-text-muted leading-relaxed mb-8 relative z-10 max-w-xl">
                 {capabilityPillars[activePane].description}
               </p>
 

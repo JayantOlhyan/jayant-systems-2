@@ -17,9 +17,11 @@ export interface Project {
   metrics: { label: string; value: string }[];
   accentColor: string;
   bgDark: string;
+  bgLight: string;
   liveUrl?: string;
   githubUrl?: string;
   featured: boolean;
+  image?: string;
 }
 
 export const projectsData: Project[] = [
@@ -44,60 +46,66 @@ export const projectsData: Project[] = [
       { label: "AI Generation Speed", value: "< 2.5s Response Time" },
       { label: "Active Users", value: "500+ Teachers" }
     ],
-    accentColor: "#FF5A00",
-    bgDark: "#120B04",
+    accentColor: "#E7A83E",
+    bgDark: "#315C4B",
+    bgLight: "#F4EBD8",
     githubUrl: "https://github.com/JayantOlhyan",
     featured: true,
+    image: "/assets/3d/teacher_sathi_3d.png"
   },
   {
-    id: "healthkinator",
-    slug: "healthkinator",
-    title: "Healthkinator",
-    tagline: "Intelligent Triage & AI Medical Symptom Checker",
-    category: "Healthcare & AI Systems",
-    capabilities: ["Medical AI Triage", "Natural Language Processing", "Interactive UI", "Real-Time Telemetry"],
-    client: "ET GenAI Hackathon 2025 (Finalist Project)",
-    role: "AI & Full-Stack Engineer",
-    duration: "48 Hours",
+    id: "khelclan",
+    slug: "khel-clan",
+    title: "Khel Clan",
+    tagline: "Modern Esports & Gaming Community Platform",
+    category: "Gaming & Community Platforms",
+    capabilities: ["Community Architecture", "Real-time Leaderboards", "Tournament Management", "Identity Design"],
+    client: "Khel Clan Gaming",
+    role: "Lead Full-Stack Developer",
+    duration: "8 Weeks",
     year: "2025",
-    summary: "Built for the ET GenAI 2025 Hackathon, Healthkinator is a natural language medical symptom triage assistant that asks dynamic follow-up questions to provide preliminary health guidance.",
-    problem: "Patients often struggle to articulate medical symptoms or accurately identify potential urgency levels, overcrowding emergency queues with non-critical inquiries.",
-    approach: "Designed a state-machine conversational flow driven by medical knowledge graph embeddings and multi-turn clinical questioning algorithms.",
-    solution: "An ultra-fast, empathetic web application that guides users through structured symptom assessment, generating concise summary reports formatted for physician review.",
-    technologies: ["React 19", "Google Gemini 1.5 Pro", "FastAPI", "TypeScript", "Tailwind CSS", "Vercel AI SDK"],
+    summary: "A high-performance community platform built for competitive gaming, featuring live tournament brackets, real-time player statistics, and automated matchmaking queues.",
+    problem: "Fragmented communication across Discord and Google Sheets made tournament organization inefficient and stunted community growth.",
+    approach: "Developed a centralized Next.js application with a Supabase backend to handle real-time state synchronization for active matches and leaderboards.",
+    solution: "An immersive, neon-driven web platform that automates tournament check-ins, tracks player ELO, and serves as the ultimate digital clubhouse for the clan.",
+    technologies: ["React 19", "Next.js", "Supabase", "TypeScript", "Tailwind CSS v4"],
     metrics: [
-      { label: "Hackathon Standing", value: "Top 10 Finalist (ET GenAI)" },
-      { label: "Triage Accuracy", value: "94% Benchmark Match" },
-      { label: "Assessment Time", value: "< 90 Seconds" }
+      { label: "Active Players", value: "2,500+" },
+      { label: "Tournament Automation", value: "100% Automated Brackets" },
+      { label: "Community Engagement", value: "3x Increase" }
     ],
-    accentColor: "#00C853",
-    bgDark: "#03140A",
+    accentColor: "#DFFF63",
+    bgDark: "#173C2B",
+    bgLight: "#F4F1E8",
     featured: true,
+    image: "/assets/3d/khel_clan_3d.png"
   },
   {
-    id: "sentinelai",
-    slug: "sentinel-ai",
-    title: "Sentinel AI",
-    tagline: "Autonomous Threat Monitoring & Security Pipeline",
-    category: "Cybersecurity & Automation",
-    capabilities: ["Autonomous Security Agents", "Log Streaming", "Anomaly Detection", "Real-Time Dashboard"],
-    client: "Enterprise Security Audit",
-    role: "Systems Architect & Developer",
-    duration: "4 Weeks",
+    id: "arhamestate",
+    slug: "arham-estate",
+    title: "Arham Estate",
+    tagline: "Premium Real Estate Discovery & CRM Integration",
+    category: "Real Estate & Lead Generation",
+    capabilities: ["Property Filtering", "CRM Integration", "Immersive Visuals", "SEO Architecture"],
+    client: "Arham Estate Agency",
+    role: "Frontend Architect",
+    duration: "5 Weeks",
     year: "2024",
-    summary: "Sentinel AI is an autonomous security pipeline that ingests server logs in real time, flags anomalous API access patterns, and triggers instant slack/telegram escalation alerts.",
-    problem: "Manual security log auditing fails to detect subtle rate-limiting abuses, multi-vector bot probes, and unauthorized credential stuffing attempts across distributed microservices.",
-    approach: "Created a streaming log ingestion pipeline integrated with an isolated LLM evaluator that parses request payloads for signature-less zero-day anomaly indicators.",
-    solution: "An enterprise dashboard providing real-time threat scores, auto-blocking IP configurations, and detailed incident breakdown reports.",
-    technologies: ["Next.js App Router", "Python", "LangChain", "Supabase Vector DB", "Tailwind CSS", "WebSockets"],
+    summary: "A luxurious digital storefront for high-end properties, integrated with a bespoke CRM to manage incoming leads and automate property tour scheduling.",
+    problem: "The client's previous website suffered from slow image loading, poor mobile responsiveness, and zero integration with their internal sales pipeline.",
+    approach: "Implemented a headless CMS structure for effortless property updates, paired with an ultra-fast Next.js frontend and GSAP for cinematic property reveals.",
+    solution: "A highly visual, fast-loading property discovery platform that captures leads seamlessly into their sales CRM via custom API webhooks.",
+    technologies: ["Next.js App Router", "Sanity CMS", "GSAP ScrollTrigger", "Tailwind CSS"],
     metrics: [
-      { label: "Log Ingestion Rate", value: "10k Events / Sec" },
-      { label: "Detection Latency", value: "< 150ms" },
-      { label: "False Positive Reduction", value: "85%" }
+      { label: "Lead Conversion", value: "+45% Increase" },
+      { label: "Page Load Latency", value: "< 1.2s Global" },
+      { label: "Mobile Traffic", value: "65% of Total Users" }
     ],
-    accentColor: "#2979FF",
-    bgDark: "#040B17",
+    accentColor: "#0BAADC",
+    bgDark: "#153B32",
+    bgLight: "#F4F0E7",
     featured: true,
+    image: "/assets/3d/arham_estate_3d.png"
   },
   {
     id: "msit-rebuild",
@@ -120,8 +128,10 @@ export const projectsData: Project[] = [
       { label: "Page Load Time", value: "0.4s Global Avg" },
       { label: "Mobile Usability", value: "100% Score" }
     ],
-    accentColor: "#7C4DFF",
-    bgDark: "#0B0516",
+    accentColor: "#D89D32",
+    bgDark: "#7B1818",
+    bgLight: "#EEE8DC",
     featured: true,
+    image: "/assets/3d/msit_3d.png"
   }
 ];

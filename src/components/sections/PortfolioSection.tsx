@@ -177,25 +177,33 @@ export default function PortfolioSection() {
                     </div>
 
                     {/* Mock Interface Content */}
-                    <div className="flex-1 p-6 flex flex-col justify-between bg-gradient-to-br from-white/5 to-transparent text-white">
-                      <div className="flex flex-col gap-3">
+                    <div className="flex-1 relative flex flex-col justify-between bg-gradient-to-br from-white/5 to-transparent text-white overflow-hidden p-6">
+                      
+                      {/* 3D Asset Integration */}
+                      {project.image && (
+                        <div className="absolute inset-0 flex items-center justify-center p-8 opacity-90 mix-blend-screen mix-blend-plus-lighter">
+                          <img src={project.image} alt={project.title} className="w-full h-full object-contain" />
+                        </div>
+                      )}
+
+                      <div className="flex flex-col gap-3 relative z-10">
                         <div className="flex items-center justify-between">
                           <span className="font-mono text-xs font-bold tracking-widest uppercase text-white/80 flex items-center gap-2">
                             <Sparkles className="size-3.5 text-primary" /> {project.title} Interface
                           </span>
-                          <span className="font-mono text-[10px] text-white/40 border border-white/10 px-2 py-0.5 rounded">
+                          <span className="font-mono text-[10px] text-white/40 border border-white/10 px-2 py-0.5 rounded backdrop-blur-sm bg-black/20">
                             Production
                           </span>
                         </div>
-                        <p className="font-serif text-lg font-bold text-white/90 line-clamp-2">
+                        <p className="font-serif text-lg font-bold text-white/90 line-clamp-2 drop-shadow-md">
                           {project.tagline}
                         </p>
                       </div>
 
                       {/* Mock Tech Badges */}
-                      <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
+                      <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10 relative z-10">
                         {project.technologies.slice(0, 4).map((tech, idx) => (
-                          <span key={idx} className="font-mono text-[10px] text-white/70 bg-white/10 px-2.5 py-1 rounded-md">
+                          <span key={idx} className="font-mono text-[10px] text-white/90 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/5">
                             {tech}
                           </span>
                         ))}

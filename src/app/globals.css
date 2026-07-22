@@ -2,16 +2,16 @@
 
 :root {
   /* Core Color System - Warm Editorial Palette */
-  --background: #FDFCF7; /* Warm off-white canvas */
-  --foreground: #101010; /* Soft solid near-black for high contrast */
-  --muted: #605F5A; /* Warm neutral grey for secondary typography */
+  --background: #F3F0E9; /* Warm Canvas */
+  --foreground: #11110F; /* Primary Ink */
+  --muted: #65635E; /* Secondary Ink */
   --muted-light: #A09F9A;
-  --border: rgba(16, 16, 16, 0.08); /* Crisp subtle border */
-  --primary: #FF5A00; /* Strategic vibrancy orange accent */
-  --primary-hover: #E04E00;
-  --glow: rgba(255, 90, 0, 0.04);
-  --card-bg: #FFFFFF;
-  --card-border: rgba(16, 16, 16, 0.06);
+  --border: #DCD8CF; /* Neutral Border */
+  --primary: #FF5A1F; /* Primary Brand Orange */
+  --primary-hover: #D9430D; /* Deep Orange */
+  --glow: rgba(255, 90, 31, 0.04);
+  --card-bg: #FAF9F6; /* Pure Canvas */
+  --card-border: rgba(17, 17, 15, 0.06);
 
   /* Spacing Tokens */
   --space-xs: 0.5rem;    /* 8px */
@@ -24,20 +24,20 @@
 }
 
 .dark {
-  --background: #0B0A08; /* Obsidian-charcoal background */
-  --foreground: #F5F4EE; /* Off-white text */
+  --background: #181816; /* Dark Surface */
+  --foreground: #FAF9F6; /* Pure Canvas */
   --muted: #A09F9A;
-  --muted-light: #605F5A;
-  --border: rgba(245, 244, 238, 0.08);
-  --primary: #FF7020;
-  --primary-hover: #FF8540;
-  --glow: rgba(255, 112, 32, 0.08);
-  --card-bg: #141311;
-  --card-border: rgba(245, 244, 238, 0.05);
+  --muted-light: #65635E;
+  --border: rgba(250, 249, 246, 0.08);
+  --primary: #FF5A1F;
+  --primary-hover: #D9430D;
+  --glow: rgba(255, 90, 31, 0.08);
+  --card-bg: #11110F; /* Primary Ink */
+  --card-border: rgba(250, 249, 246, 0.05);
 }
 
 @theme {
-  --font-sans: var(--font-geist), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument-serif), Georgia, Cambria, serif;
   --font-mono: var(--font-ibm-mono), ui-monospace, SFMono-Regular, monospace;
 
@@ -169,7 +169,7 @@ html.lenis, html.lenis body {
 
 /* Base Headings Styling */
 h1, .h1 {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 700;
   letter-spacing: -0.03em;
   font-size: clamp(32px, 5vw, 64px);
@@ -177,7 +177,7 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 600;
   letter-spacing: -0.025em;
   font-size: clamp(28px, 3.5vw, 44px);
@@ -185,7 +185,7 @@ h2, .h2 {
 }
 
 h3, .h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 600;
   letter-spacing: -0.015em;
   font-size: clamp(20px, 2.2vw, 28px);

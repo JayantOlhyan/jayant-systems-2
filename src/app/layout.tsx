@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Inter, Instrument_Serif, IBM_Plex_Mono } from "next/font/google";
+import { Manrope, Instrument_Serif, IBM_Plex_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
@@ -8,14 +8,8 @@ import CustomCursor from "@/components/CustomCursor";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import "./globals.css";
 
-const geist = Geist({
-  variable: "--font-geist",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   display: "swap",
 });
@@ -111,7 +105,7 @@ export default function RootLayout({
     <html lang="en" className="h-full scroll-smooth" suppressHydrationWarning>
       <head></head>
       <body
-        className={`${geist.variable} ${inter.variable} ${instrumentSerif.variable} ${ibmMono.variable} min-h-full bg-bg-base text-text-base flex flex-col justify-between selection:bg-primary/20 selection:text-primary transition-colors duration-300 antialiased`}
+        className={`${manrope.variable} ${instrumentSerif.variable} ${ibmMono.variable} min-h-full bg-bg-base text-text-base flex flex-col justify-between selection:bg-primary/20 selection:text-primary transition-colors duration-500 antialiased`}
       >
         <a className="skip-link" href="#main-content">
           Skip to main content

@@ -1,18 +1,58 @@
 "use client";
 
 import React, { useState } from "react";
-import { caseStudies } from "../data/content";
+import { projectsData } from "../data/projects";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, ArrowRight, X, Sparkles, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function CaseStudies() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const activeStudy = caseStudies.find((s) => s.id === selectedId);
+  const activeStudy = projectsData.find((s) => s.id === selectedId);
 
-  // Take the first 4 case studies for the featured section
-  const featuredStudies = caseStudies.slice(0, 4);
+  // Take the featured case studies
+  const featuredStudies = projectsData.filter(s => s.featured).slice(0, 4);
+
+  // GSAP Background Choreography
+  React.useEffect(() => {
+    let ctx = gsap.context(() => {
+      featuredStudies.forEach((study, index) => {
+        const element = document.getElementById(`project-card-${study.id}`);
+        if (element) {
+          ScrollTrigger.create({
+            trigger: element,
+            start: "top 50%",
+            end: "bottom 50%",
+            onEnter: () => {
+              gsap.to("body", { backgroundColor: study.bgLight, duration: 0.8, ease: "power2.out" });
+            },
+            onEnterBack: () => {
+              gsap.to("body", { backgroundColor: study.bgLight, duration: 0.8, ease: "power2.out" });
+            },
+          });
+        }
+      });
+
+      // Reset background when leaving the section
+      ScrollTrigger.create({
+        trigger: "#work",
+        start: "top bottom",
+        end: "bottom top",
+        onLeave: () => {
+          gsap.to("body", { backgroundColor: "var(--background)", duration: 0.8 });
+        },
+        onLeaveBack: () => {
+          gsap.to("body", { backgroundColor: "var(--background)", duration: 0.8 });
+        }
+      });
+    });
+
+    return () => ctx.revert();
+  }, [featuredStudies]);
 
   return (
     <section id="work" className="py-20 md:py-28 relative">
@@ -46,6 +86,7 @@ export default function CaseStudies() {
           {featuredStudies.map((study) => (
             <motion.div
               key={study.id}
+              id={`project-card-${study.id}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -55,9 +96,10 @@ export default function CaseStudies() {
               {/* Graphic Mockup Preview Container */}
               <div 
                 onClick={() => setSelectedId(study.id)}
-                className="w-full aspect-[16/10] bg-gradient-to-br from-neutral-900 to-neutral-800 flex items-center justify-center p-6 cursor-pointer overflow-hidden relative"
+                className="w-full aspect-[16/10] flex items-center justify-center p-6 cursor-pointer overflow-hidden relative"
+                style={{ backgroundColor: study.bgDark }}
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,138,0,0.15),transparent)] opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 opacity-80 group-hover:opacity-100 transition-opacity" style={{ background: `radial-gradient(circle at 50% 120%, ${study.accentColor}40, transparent)` }} />
                 
                 {/* Mock UI Dashboard representation */}
                 <div className="w-[85%] h-[85%] rounded-t-xl bg-[#0B0F19] border border-white/10 shadow-2xl flex flex-col overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
@@ -75,7 +117,7 @@ export default function CaseStudies() {
                   <div className="flex-1 p-4 flex flex-col gap-3 font-mono text-[9px] text-white/50 text-left">
                     <div className="flex items-center justify-between border-b border-white/5 pb-2">
                       <span className="font-bold text-white text-[10px]">{study.title}</span>
-                      <span className="text-primary text-[8px] bg-primary/10 border border-primary/20 px-1.5 py-0.5 rounded">{study.industry}</span>
+                      <span className="text-primary text-[8px] bg-primary/10 border border-primary/20 px-1.5 py-0.5 rounded" style={{ color: study.accentColor, borderColor: `${study.accentColor}40`, backgroundColor: `${study.accentColor}15` }}>{study.category}</span>
                     </div>
                     <div className="space-y-2">
                       <div className="h-3 bg-white/5 rounded w-3/4" />
@@ -90,19 +132,20 @@ export default function CaseStudies() {
               <div className="p-6 md:p-8 flex flex-col justify-between flex-1 text-left">
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-[10px] font-mono font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded">
-                      {study.industry}
+                    <span className="text-[10px] font-mono font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded" style={{ color: study.accentColor, borderColor: `${study.accentColor}40`, backgroundColor: `${study.accentColor}15` }}>
+                      {study.category}
                     </span>
                   </div>
                   <h3 className="font-serif text-xl md:text-2xl font-bold text-text-base mb-2">{study.title}</h3>
                   <p className="text-xs md:text-sm text-text-muted leading-relaxed mb-6 line-clamp-2">
-                    {study.solution}
+                    {study.summary}
                   </p>
                 </div>
                 
                 <button
                   onClick={() => setSelectedId(study.id)}
                   className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-primary hover:underline self-start"
+                  style={{ color: study.accentColor }}
                 >
                   <span>View Case Study</span>
                   <ArrowRight className="size-3.5" />
@@ -133,8 +176,8 @@ export default function CaseStudies() {
                 {/* Header */}
                 <div className="flex justify-between items-start border-b border-border-custom/50 pb-4">
                   <div>
-                    <span className="font-mono text-[10px] tracking-widest uppercase text-primary border border-primary/20 bg-primary/5 px-2.5 py-0.5 rounded-full mb-2 inline-block">
-                      {activeStudy.industry}
+                    <span className="font-mono text-[10px] tracking-widest uppercase border px-2.5 py-0.5 rounded-full mb-2 inline-block" style={{ color: activeStudy.accentColor, borderColor: `${activeStudy.accentColor}40`, backgroundColor: `${activeStudy.accentColor}15` }}>
+                      {activeStudy.category}
                     </span>
                     <h3 className="font-serif text-2xl md:text-3xl font-bold text-text-base">{activeStudy.title}</h3>
                     <p className="text-xs text-text-muted mt-1">Client: {activeStudy.client}</p>
@@ -149,29 +192,23 @@ export default function CaseStudies() {
 
                 {/* Content */}
                 <div className="space-y-6 text-xs md:text-sm text-text-muted leading-relaxed">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="border border-border-custom/60 rounded-2xl p-4 bg-red-500/5">
-                      <span className="font-bold text-[10px] text-red-600 block mb-1 uppercase tracking-wider">❌ Before (Manual Bottleneck)</span>
-                      <p className="text-text-base">{activeStudy.beforeState}</p>
-                    </div>
-                    <div className="border border-border-custom/60 rounded-2xl p-4 bg-emerald-500/5">
-                      <span className="font-bold text-[10px] text-emerald-600 block mb-1 uppercase tracking-wider">✅ After (Automated Outcome)</span>
-                      <p className="text-text-base">{activeStudy.afterState}</p>
-                    </div>
-                  </div>
-
                   <div>
-                    <span className="font-serif font-bold text-text-base block mb-1">Operational Helper Built</span>
+                    <span className="font-serif font-bold text-text-base block mb-1">Problem Statement</span>
+                    <p>{activeStudy.problem}</p>
+                  </div>
+                  
+                  <div>
+                    <span className="font-serif font-bold text-text-base block mb-1">Solution Engineered</span>
                     <p>{activeStudy.solution}</p>
                   </div>
 
-                  {activeStudy.features && (
+                  {activeStudy.capabilities && (
                     <div>
-                      <span className="font-serif font-bold text-text-base block mb-2">Key System Features</span>
+                      <span className="font-serif font-bold text-text-base block mb-2">Capabilities Deployed</span>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {activeStudy.features.map((feature, idx) => (
+                        {activeStudy.capabilities.map((feature, idx) => (
                           <div key={idx} className="flex items-start gap-2">
-                            <CheckCircle2 className="size-4 text-primary shrink-0 mt-0.5" />
+                            <CheckCircle2 className="size-4 shrink-0 mt-0.5" style={{ color: activeStudy.accentColor }} />
                             <span>{feature}</span>
                           </div>
                         ))}
@@ -180,16 +217,21 @@ export default function CaseStudies() {
                   )}
 
                   <div className="border-t border-border-custom/50 pt-4 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-mono text-text-muted block uppercase">Measurable Result</span>
-                      <span className="text-base md:text-lg font-bold text-primary">{activeStudy.result}</span>
+                    <div className="flex gap-6">
+                      {activeStudy.metrics?.map((metric, idx) => (
+                        <div key={idx}>
+                          <span className="text-[10px] font-mono text-text-muted block uppercase">{metric.label}</span>
+                          <span className="text-base md:text-lg font-bold" style={{ color: activeStudy.accentColor }}>{metric.value}</span>
+                        </div>
+                      ))}
                     </div>
-                    {activeStudy.liveWebsite && activeStudy.liveWebsite !== "#" && (
+                    {activeStudy.liveUrl && (
                       <a
-                        href={activeStudy.liveWebsite}
+                        href={activeStudy.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-xl bg-primary hover:bg-primary-hover text-white px-5 py-2.5 text-xs font-semibold shadow-sm transition-all"
+                        className="inline-flex items-center gap-1.5 rounded-xl text-white px-5 py-2.5 text-xs font-semibold shadow-sm transition-all hover:opacity-80"
+                        style={{ backgroundColor: activeStudy.accentColor }}
                       >
                         <span>Visit Live Site</span>
                         <ExternalLink className="size-3.5" />

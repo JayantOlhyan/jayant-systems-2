@@ -4,9 +4,11 @@ import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowRight, Sparkles, Cpu, Bot, Zap, Globe, Activity } from "lucide-react";
 import { gsap } from "gsap";
-import HeroVisual from "./HeroVisual";
 import Magnetic from "../Magnetic";
 import BackgroundTypography from "../BackgroundTypography";
+import dynamic from "next/dynamic";
+
+const HeroSystem = dynamic(() => import("../3d/HeroSystem"), { ssr: false });
 
 export default function Hero() {
   const headingLinesRef = useRef<HTMLSpanElement[]>([]);
@@ -62,10 +64,13 @@ export default function Hero() {
   ];
 
   return (
-    <section className="relative min-h-[92vh] flex flex-col justify-center py-16 md:py-24 overflow-hidden border-b border-border-custom bg-[#FDFCF7]/40 dark:bg-[#0B0A08]/20">
+    <section id="hero-section" className="relative min-h-[92vh] flex flex-col justify-center py-16 md:py-24 overflow-hidden border-b border-border-custom bg-[#FDFCF7]/40 dark:bg-[#0B0A08]/20">
       
       {/* Background Oversized Parallax Typography */}
       <BackgroundTypography text="INTELLIGENCE" speed={0.4} direction="left" />
+
+      {/* 3D Interactive WebGL Scene */}
+      <HeroSystem />
 
       {/* Connected Grid Annotations (Top Corners) */}
       <div className="absolute top-6 left-6 md:left-12 font-mono text-[9px] text-text-muted/60 uppercase tracking-widest hidden sm:flex items-center gap-2 pointer-events-none z-10">
@@ -97,7 +102,7 @@ export default function Hero() {
             </div>
 
             {/* Editorial Masked Display Headline */}
-            <h1 className="font-serif text-4xl md:text-6xl lg:text-7.5xl font-extrabold tracking-tight text-text-base leading-[1.04] mb-8 flex flex-col">
+            <h1 className="font-sans text-[clamp(44px,7vw,120px)] font-bold tracking-tighter text-text-base leading-[0.95] mb-8 flex flex-col uppercase">
               <span className="mask-text">
                 <span
                   ref={(el) => {
@@ -113,9 +118,9 @@ export default function Hero() {
                   ref={(el) => {
                     if (el) headingLinesRef.current[1] = el;
                   }}
-                  className="mask-text-inner text-primary"
+                  className="mask-text-inner text-primary font-serif italic lowercase tracking-normal"
                 >
-                  INTELLIGENT
+                  intelligent
                 </span>
               </span>
               <span className="mask-text">
@@ -173,9 +178,10 @@ export default function Hero() {
 
           </div>
 
-          {/* Right Column: Interactive System Nodes Visualizer */}
-          <div className="lg:col-span-5 w-full flex justify-center z-0 explore-target">
-            <HeroVisual />
+          {/* Right Column: Interactive System Nodes Visualizer / 3D Fallback */}
+          <div className="lg:col-span-5 w-full flex justify-center z-10 explore-target">
+            {/* The 3D HeroSystem lives at the absolute background of this section via its own component */}
+            <div className="w-full aspect-square md:aspect-auto md:h-full relative pointer-events-none" />
           </div>
 
         </div>
