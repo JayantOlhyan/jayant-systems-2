@@ -1,4 +1,5 @@
 import React from "react";
+import BrandIntro from "@/components/BrandIntro";
 import Hero from "@/components/sections/Hero";
 import PortfolioSection from "@/components/sections/PortfolioSection";
 import Capabilities from "@/components/sections/Capabilities";
@@ -11,6 +12,9 @@ import CTA from "@/components/sections/CTA";
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
+      {/* Opening Brand Reveal Experience */}
+      <BrandIntro />
+
       <main className="flex-1 w-full">
         {/* 1. Hero Entrance & Credentials Strip */}
         <Hero />

@@ -2,10 +2,11 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Cpu, Bot, Zap, Globe } from "lucide-react";
+import { ArrowRight, Sparkles, Cpu, Bot, Zap, Globe, Activity } from "lucide-react";
 import { gsap } from "gsap";
 import HeroVisual from "./HeroVisual";
 import Magnetic from "../Magnetic";
+import BackgroundTypography from "../BackgroundTypography";
 
 export default function Hero() {
   const headingLinesRef = useRef<HTMLSpanElement[]>([]);
@@ -62,6 +63,19 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[92vh] flex flex-col justify-center py-16 md:py-24 overflow-hidden border-b border-border-custom bg-[#FDFCF7]/40 dark:bg-[#0B0A08]/20">
+      
+      {/* Background Oversized Parallax Typography */}
+      <BackgroundTypography text="INTELLIGENCE" speed={0.4} direction="left" />
+
+      {/* Connected Grid Annotations (Top Corners) */}
+      <div className="absolute top-6 left-6 md:left-12 font-mono text-[9px] text-text-muted/60 uppercase tracking-widest hidden sm:flex items-center gap-2 pointer-events-none z-10">
+        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+        <span>[SYS_STATUS // ONLINE]</span>
+      </div>
+      <div className="absolute top-6 right-6 md:right-12 font-mono text-[9px] text-text-muted/60 uppercase tracking-widest hidden sm:flex items-center gap-2 pointer-events-none z-10">
+        <span>[LATENCY // &lt; 120MS]</span>
+      </div>
+
       <div className="max-w-[1728px] mx-auto px-6 md:px-12 w-full z-10">
         
         {/* Main Studio Hero Split */}
@@ -160,7 +174,7 @@ export default function Hero() {
           </div>
 
           {/* Right Column: Interactive System Nodes Visualizer */}
-          <div className="lg:col-span-5 w-full flex justify-center z-0">
+          <div className="lg:col-span-5 w-full flex justify-center z-0 explore-target">
             <HeroVisual />
           </div>
 

@@ -7,6 +7,7 @@ import { ArrowRight, X, ExternalLink, Sparkles, CheckCircle2, Code2, Code, Layer
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Magnetic from "../Magnetic";
+import BackgroundTypography from "../BackgroundTypography";
 
 export default function PortfolioSection() {
   const [activeProject, setActiveProject] = useState<Project | null>(null);
@@ -48,9 +49,12 @@ export default function PortfolioSection() {
     <section
       id="portfolio"
       ref={sectionRef}
-      className="py-24 md:py-36 relative border-b border-border-custom bg-background"
+      className="py-24 md:py-36 relative border-b border-border-custom bg-background overflow-hidden"
     >
-      <div className="max-w-[1728px] mx-auto px-6 md:px-12 w-full">
+      {/* Ambient Oversized Background Parallax Words */}
+      <BackgroundTypography text="PROJECTS" speed={0.6} direction="right" />
+
+      <div className="max-w-[1728px] mx-auto px-6 md:px-12 w-full z-10 relative">
         
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 md:mb-24 gap-8">
@@ -64,7 +68,7 @@ export default function PortfolioSection() {
             </h2>
           </div>
           <p className="text-sm md:text-base text-text-muted max-w-md leading-relaxed">
-            Explore high-performance AI agents, automated workflow pipelines, and custom software systems built for ambitious organizations.
+            Explore high-performance AI agents, automated workflow portals, and custom software platforms engineered for business impact.
           </p>
         </div>
 
@@ -76,9 +80,14 @@ export default function PortfolioSection() {
               ref={(el) => {
                 if (el) cardRefs.current[index] = el;
               }}
-              className="group relative rounded-[32px] overflow-hidden border border-border-custom bg-card-bg shadow-[0_8px_40px_rgba(0,0,0,0.03)] transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
+              className="group relative rounded-[32px] overflow-hidden border border-border-custom bg-card-bg shadow-[0_8px_40px_rgba(0,0,0,0.03)] transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] view-project-target"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[520px]">
+              {/* Oversized Background Section Number */}
+              <div className="absolute top-4 right-8 font-serif font-black text-7xl md:text-9xl text-text-muted/5 pointer-events-none select-none z-0">
+                0{index + 1}
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[520px] relative z-10">
                 
                 {/* Left Column: Project Copy & System Metrics */}
                 <div className="lg:col-span-6 p-8 md:p-12 lg:p-16 flex flex-col justify-between z-10">
@@ -133,7 +142,7 @@ export default function PortfolioSection() {
 
                     <button
                       onClick={() => setActiveProject(project)}
-                      className="inline-flex items-center gap-2 rounded-full border border-border-custom bg-background hover:bg-primary hover:text-white px-6 py-3 text-xs font-mono font-bold transition-all duration-300 shadow-sm"
+                      className="inline-flex items-center gap-2 rounded-full border border-border-custom bg-background hover:bg-primary hover:text-white px-6 py-3 text-xs font-mono font-bold transition-all duration-300 shadow-sm cursor-pointer"
                       aria-label={`View detailed case study for ${project.title}`}
                     >
                       <span>View Case Study</span>
@@ -144,7 +153,7 @@ export default function PortfolioSection() {
 
                 {/* Right Column: Visual Mockup Showcase Container */}
                 <div
-                  className="lg:col-span-6 relative overflow-hidden min-h-[340px] lg:min-h-full flex items-center justify-center p-8 md:p-12"
+                  className="lg:col-span-6 relative overflow-hidden min-h-[340px] lg:min-h-full flex items-center justify-center p-8 md:p-12 project-img-wrapper"
                   style={{ backgroundColor: project.bgDark }}
                 >
                   {/* Subtle Background Glow */}
@@ -204,13 +213,13 @@ export default function PortfolioSection() {
 
       {/* Detailed Case Study Modal Overlay */}
       {activeProject && (
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md animate-fadeIn">
+        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md animate-fadeIn">
           <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl border border-border-custom bg-background p-6 md:p-12 shadow-2xl text-text-base">
             
             {/* Close Button */}
             <button
               onClick={() => setActiveProject(null)}
-              className="absolute top-6 right-6 p-3 rounded-full border border-border-custom bg-card-bg hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors"
+              className="absolute top-6 right-6 p-3 rounded-full border border-border-custom bg-card-bg hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
               aria-label="Close modal"
             >
               <X className="size-5" />
